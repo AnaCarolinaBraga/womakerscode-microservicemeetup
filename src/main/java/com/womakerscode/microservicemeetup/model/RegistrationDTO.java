@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class RegistrationDTO {     //Vamos acrescentar as regras que queremos que os atributos tenham
 
     //Não precisa dizer que não vai ser vazio porque cria sozinho
-    private Long id;
+    private long id;
 
     @NotEmpty   //Vai dizer que ele não pode ser vazio
     private String name;
