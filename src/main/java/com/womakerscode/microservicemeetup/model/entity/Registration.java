@@ -1,0 +1,35 @@
+package com.womakerscode.microservicemeetup.model.entity;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.time.LocalDate;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder    //Essas anotações criam os constructos, getters e setters
+public class Registration {
+
+    @Id  //vai dizer que é um elemento único na tabela/banco
+    @Column(name = "registration_id") //esse vai ser o nome da nossa tabela
+    @GeneratedValue(strategy = GenerationType.IDENTITY)   //tem que ter uma pessoa com esse ID?
+    private Long id;
+
+    @Column(name = "person_name")
+    private String name;
+
+    @Column(name = "date_of_registration")
+    private LocalDate dateOfregistration;
+
+    @Column   //o nome da tabela vai ficar "registration" mesmo quando não especificamos
+    private String registration;
+
+}
