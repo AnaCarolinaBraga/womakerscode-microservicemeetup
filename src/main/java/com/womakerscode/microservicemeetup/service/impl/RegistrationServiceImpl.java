@@ -1,5 +1,6 @@
 package com.womakerscode.microservicemeetup.service.impl;
 
+import com.womakerscode.microservicemeetup.exception.BusinessException;
 import com.womakerscode.microservicemeetup.model.entity.Registration;
 import com.womakerscode.microservicemeetup.repository.RegistrationRepository;
 import com.womakerscode.microservicemeetup.service.RegistrationService;
