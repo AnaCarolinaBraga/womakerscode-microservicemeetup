@@ -68,7 +68,7 @@ public class RegistrationServiceTest {
         //assert, estamos garantindo que o retorno seja o que a gente espera
         assertThat(savedRegistration.getId()).isEqualTo(101);   //o isEqualTo tem que retornar o que ta dentro do mock
         assertThat(savedRegistration.getName()).isEqualTo("Ana Carolina");   //o isEqualTo tem que retornar o que ta dentro do mock
-        assertThat(savedRegistration.getDateOfregistration()).isEqualTo(LocalDate.now());   //o isEqualTo tem que retornar o que ta dentro do mock
+        assertThat(savedRegistration.getDateOfRegistration()).isEqualTo(LocalDate.now());   //o isEqualTo tem que retornar o que ta dentro do mock
         assertThat(savedRegistration.getRegistration()).isEqualTo("001");   //o isEqualTo tem que retornar o que ta dentro do mock
 
     }
@@ -77,7 +77,7 @@ public class RegistrationServiceTest {
         return Registration.builder()
                 .id(101)
                 .name("Ana Carolina")
-                .dateOfregistration(LocalDate.now())
+                .dateOfRegistration(LocalDate.now())
                 .registration("001") //aqui vamos supor que seja quantidade de inserções de objetos na tabela.
                                     //como é a "versão 1" dessa pessoa, fica 001. Se atualizasse algo, mudaria esse numero
                 .build();  //Ele construiu esse objeto
@@ -116,7 +116,7 @@ public class RegistrationServiceTest {
         assertThat(foundRegistration.get().getId()).isEqualTo(id);
         assertThat(foundRegistration.get().getName()).isEqualTo(registration.getName());
         assertThat(foundRegistration.get().getDateOfRegistration()).isEqualTo(registration.getDateOfRegistration());
-        assertThat(foundRegistration.get().getRegistration()).isEqualTo(registration.getRegistration())
+        assertThat(foundRegistration.get().getRegistration()).isEqualTo(registration.getRegistration());
     }
 
 }

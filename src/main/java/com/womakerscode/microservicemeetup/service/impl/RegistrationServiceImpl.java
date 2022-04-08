@@ -6,6 +6,8 @@ import com.womakerscode.microservicemeetup.repository.RegistrationRepository;
 import com.womakerscode.microservicemeetup.service.RegistrationService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
 
@@ -21,5 +23,10 @@ public class RegistrationServiceImpl implements RegistrationService {
         }
 
         return repository.save(registration);
+    }
+
+    @Override
+    public Optional<Registration> getRegistrationById(Integer id) {
+        return this.repository.findById(id);
     }
 }
