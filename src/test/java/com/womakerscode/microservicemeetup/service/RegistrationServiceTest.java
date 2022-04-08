@@ -2,6 +2,7 @@ package com.womakerscode.microservicemeetup.service;
 
 import com.womakerscode.microservicemeetup.model.entity.Registration;
 import com.womakerscode.microservicemeetup.repository.RegistrationRepository;
+import com.womakerscode.microservicemeetup.service.impl.RegistrationServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,7 @@ public class RegistrationServiceTest {
         // vamos inserir aqui a dependencia do service e dar um new na mesma
         //Como se fosse um @builder, mas aqui a gente precisa colocar o que queremos que aconteça e que rode
         //quando estivermos fazendo esses testes.
+        this.registrationService = new RegistrationServiceImpl(repository);
     }
 
     @Test
