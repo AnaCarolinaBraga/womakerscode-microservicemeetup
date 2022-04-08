@@ -21,7 +21,7 @@ public class Registration {
     @Id  //vai dizer que é um elemento único na tabela/banco
     @Column(name = "registration_id") //esse vai ser o nome da nossa tabela
     @GeneratedValue(strategy = GenerationType.IDENTITY)   //tem que ter uma pessoa com esse ID?
-    private long id;
+    private Integer id;
 
     @Column(name = "person_name")
     private String name;
