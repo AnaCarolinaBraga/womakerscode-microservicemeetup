@@ -68,7 +68,7 @@ public class RegistrationServiceTest {
         //assert, estamos garantindo que o retorno seja o que a gente espera
         assertThat(savedRegistration.getId()).isEqualTo(101);   //o isEqualTo tem que retornar o que ta dentro do mock
         assertThat(savedRegistration.getName()).isEqualTo("Ana Carolina");   //o isEqualTo tem que retornar o que ta dentro do mock
-        assertThat(savedRegistration.getDateOfRegistration()).isEqualTo(LocalDate.now());   //o isEqualTo tem que retornar o que ta dentro do mock
+        assertThat(savedRegistration.getDateOfRegistration()).isEqualTo("01/04/2022");   //o isEqualTo tem que retornar o que ta dentro do mock
         assertThat(savedRegistration.getRegistration()).isEqualTo("001");   //o isEqualTo tem que retornar o que ta dentro do mock
 
     }
@@ -132,9 +132,33 @@ public class RegistrationServiceTest {
 
         Registration registration = Registration.builder().id(11).build();
 
-        assertDoesNotThrow(() -> registrationService.delete(registration));
+        assertDoesNotThrow(() -> registrationService.delete(registration));  //ta garantindo que não vai gerar a exceção se der erro, ja que é um teste?
 
         Mockito.verify(repository, Mockito.times(1)).delete(registration);
+    }
+
+    @Test
+    @DisplayName("Should update a registration")
+    public void updateRegistration() {
+
+        // cenario
+        Integer id = 11;
+        Registration updatingRegistration = Registration.builder().id(11).build();
+
+
+        // execucao
+        Registration updatedRegistration = createValidRegistration();
+        updatedRegistration.setId(id);
+
+        Mockito.when(repository.save(updatingRegistration)).thenReturn(updatedRegistration);
+        Registration registration = registrationService.update(updatingRegistration);
+
+        // assert
+        assertThat(registration.getId()).isEqualTo(updatedRegistration.getId());
+        assertThat(registration.getName()).isEqualTo(updatedRegistration.getName());
+        assertThat(registration.getDateOfRegistration()).isEqualTo(updatedRegistration.getDateOfRegistration());
+        assertThat(registration.getRegistration()).isEqualTo(updatedRegistration.getRegistration());
+
     }
 
 
@@ -143,7 +167,7 @@ public class RegistrationServiceTest {
         return Registration.builder()
                 .id(101)
                 .name("Ana Carolina")
-                .dateOfRegistration(LocalDate.now())
+                .dateOfRegistration("01/04/2022")
                 .registration("001") //aqui vamos supor que seja quantidade de inserções de objetos na tabela.
                 //como é a "versão 1" dessa pessoa, fica 001. Se atualizasse algo, mudaria esse numero
                 .build();  //Ele construiu esse objeto

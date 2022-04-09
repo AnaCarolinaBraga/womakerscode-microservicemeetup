@@ -27,7 +27,7 @@ public class Registration {
     private String name;
 
     @Column(name = "date_of_registration")
-    private LocalDate dateOfRegistration;
+    private String dateOfRegistration;
 
     @Column   //o nome da tabela vai ficar "registration" mesmo quando não especificamos
     private String registration;

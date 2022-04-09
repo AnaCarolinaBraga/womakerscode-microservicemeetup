@@ -21,7 +21,7 @@ public class RegistrationDTO {     //Vamos acrescentar as regras que queremos qu
     private String name;
 
     @NotEmpty   //Vai dizer que ele não pode ser vazio
-    private LocalDate dateOfRegistration;
+    private String dateOfRegistration;
 
     @NotEmpty   //Vai dizer que ele não pode ser vazio
     private String registration;
