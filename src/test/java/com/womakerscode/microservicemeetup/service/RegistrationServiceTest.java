@@ -73,15 +73,7 @@ public class RegistrationServiceTest {
 
     }
 
-    private Registration createValidRegistration() {
-        return Registration.builder()
-                .id(101)
-                .name("Ana Carolina")
-                .dateOfRegistration(LocalDate.now())
-                .registration("001") //aqui vamos supor que seja quantidade de inserções de objetos na tabela.
-                                    //como é a "versão 1" dessa pessoa, fica 001. Se atualizasse algo, mudaria esse numero
-                .build();  //Ele construiu esse objeto
-    }
+
 
     @Test
     @DisplayName("Should throw business error when try to save a new registration when this registration already exist")
@@ -117,6 +109,44 @@ public class RegistrationServiceTest {
         assertThat(foundRegistration.get().getName()).isEqualTo(registration.getName());
         assertThat(foundRegistration.get().getDateOfRegistration()).isEqualTo(registration.getDateOfRegistration());
         assertThat(foundRegistration.get().getRegistration()).isEqualTo(registration.getRegistration());
+    }
+
+    @Test
+    @DisplayName("Should return empty when get an registration by id that doesn't exist")
+    public void registrationNotFoundByIdTest() {
+
+        //cenario
+        Integer id = 11;
+        Mockito.when(repository.findById(id)).thenReturn(Optional.empty());  //não precisa trazer o objeto todo, ja que so estamos trabalhando com o id
+
+        //execução
+        Optional<Registration> registration  = registrationService.getRegistrationById(id);
+
+        //assert
+        assertThat(registration.isPresent()).isFalse(); //quero garantir que o registration esteja presente e que dê falso. Isso é porque é para validar um cenário de erro
+    }
+
+    @Test
+    @DisplayName("Should delete an student")
+    public void deleteRegistrationTest() {
+
+        Registration registration = Registration.builder().id(11).build();
+
+        assertDoesNotThrow(() -> registrationService.delete(registration));
+
+        Mockito.verify(repository, Mockito.times(1)).delete(registration);
+    }
+
+
+
+    private Registration createValidRegistration() {
+        return Registration.builder()
+                .id(101)
+                .name("Ana Carolina")
+                .dateOfRegistration(LocalDate.now())
+                .registration("001") //aqui vamos supor que seja quantidade de inserções de objetos na tabela.
+                //como é a "versão 1" dessa pessoa, fica 001. Se atualizasse algo, mudaria esse numero
+                .build();  //Ele construiu esse objeto
     }
 
 }
