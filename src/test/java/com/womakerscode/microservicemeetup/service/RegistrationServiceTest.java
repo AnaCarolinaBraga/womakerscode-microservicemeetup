@@ -161,6 +161,31 @@ public class RegistrationServiceTest {
 
     }
 
+    @Test
+    @DisplayName("Should filter registrations must by properties")
+    public void findRegistrationTest() {
+
+        // cenario
+        Registration registration = createValidRegistration();
+        PageRequest pageRequest = PageRequest.of(0,10);  //usa esse pagerequest pq ta procurando uma lista, é uma classe interna do spring data
+
+        List<Registration> listRegistrations = Arrays.asList(registration);  //array.aslist como substituto melhorado do arraylist
+        Page<Registration> page = new PageImpl<Registration>(Arrays.asList(registration),
+                PageRequest.of(0,10), 1);
+
+        // execucao
+        Mockito.when(repository.findAll(Mockito.any(Example.class), Mockito.any(PageRequest.class)))
+                .thenReturn(page);
+
+        Page<Registration> result = registrationService.find(registration, pageRequest);
+
+        // assercao
+        assertThat(result.getTotalElements()).isEqualTo(1);
+        assertThat(result.getContent()).isEqualTo(listRegistrations);
+        assertThat(result.getPageable().getPageNumber()).isEqualTo(0);
+        assertThat(result.getPageable().getPageSize()).isEqualTo(10);
+    }
+
 
 
     private Registration createValidRegistration() {
