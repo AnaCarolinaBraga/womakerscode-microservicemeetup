@@ -22,7 +22,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     public Registration save(Registration registration) {
-        if (repository.existsByRegistration(registration.getRegistration())){   //aqui ele valida se não é um registro duplicado
+        if (repository.existsByRegistration(registration.getRegistration())) {   //aqui ele valida se não é um registro duplicado
             throw new BusinessException("Registration already created");
         }
 
@@ -36,7 +36,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public void delete(Registration registration) {
-        if(registration ==null || registration.getId() == null){
+        if (registration == null || registration.getId() == null) {
             throw new IllegalArgumentException("Registration id cannot be null");
         }
         this.repository.delete(registration); //esse delete já é o método que o JPA trás
@@ -45,7 +45,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public Registration update(Registration registration) {
-        if(registration ==null || registration.getId() == null){
+        if (registration == null || registration.getId() == null) {
             throw new IllegalArgumentException("Registration id cannot be null");
         }
         return this.repository.save(registration);
@@ -55,5 +55,11 @@ public class RegistrationServiceImpl implements RegistrationService {
     public Page<Registration> find(Registration filter, PageRequest pageRequest) {
         Example<Registration> example = Example.of(filter, ExampleMatcher.matching().withIgnoreCase().withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING));
         return repository.findAll(example, pageRequest);
+    }
+
+
+    @Override
+    public Optional<Registration> getRegistrationByRegistrationAttribute(String registrationAttribute) {
+        return repository.findByRegistration(registrationAttribute);
     }
 }

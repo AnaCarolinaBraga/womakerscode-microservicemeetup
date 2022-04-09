@@ -186,6 +186,26 @@ public class RegistrationServiceTest {
         assertThat(result.getPageable().getPageSize()).isEqualTo(10);
     }
 
+    @Test
+    @DisplayName("Should get an Registration model by registration attribute")
+    public void getRegistrationByRegistrationAtrb() {
+
+        String registrationAttribute = "1234";
+
+        Mockito.when(repository.findByRegistration(registrationAttribute))
+                .thenReturn(Optional.of(Registration.builder().id(11).registration(registrationAttribute).build()));
+
+        Optional<Registration> registration  = registrationService.getRegistrationByRegistrationAttribute(registrationAttribute);
+
+        assertThat(registration.isPresent()).isTrue();
+        assertThat(registration.get().getId()).isEqualTo(11);
+        assertThat(registration.get().getRegistration()).isEqualTo(registrationAttribute);
+
+        Mockito.verify(repository, Mockito.times(1)).findByRegistration(registrationAttribute);
+
+    }
+
+
 
 
     private Registration createValidRegistration() {
