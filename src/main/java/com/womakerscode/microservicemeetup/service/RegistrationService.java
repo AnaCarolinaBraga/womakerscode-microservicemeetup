@@ -10,4 +10,6 @@ public interface RegistrationService {
     Registration save(Registration any);
 
     Optional<Registration> getRegistrationById(Integer id);
+
+    void delete(Registration registration);
 }
