@@ -7,6 +7,7 @@ import com.womakerscode.microservicemeetup.service.RegistrationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 
@@ -30,6 +31,16 @@ public class RegistrationController {
         entity = registrationService.save(entity);
 
         return modelMapper.map(entity, RegistrationDTO.class);
+    }
+
+    @GetMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public RegistrationDTO get (@PathVariable Integer id) {
+
+        return registrationService
+                .getRegistrationById(id)
+                .map(registration -> modelMapper.map(registration, RegistrationDTO.class))
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
 
