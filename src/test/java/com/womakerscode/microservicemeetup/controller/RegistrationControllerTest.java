@@ -293,6 +293,8 @@ public class RegistrationControllerTest {
 
 
 
+
+
     private RegistrationDTO createNewRegistration() {
         return  RegistrationDTO.builder().id(101).name("Ana Carolina").dateOfRegistration("10/10/2021").registration("001").build();
     }
