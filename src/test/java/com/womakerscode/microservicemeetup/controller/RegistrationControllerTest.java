@@ -195,6 +195,50 @@ public class RegistrationControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    @DisplayName("Should update registration info")
+    public void updateRegistrationTest() throws Exception {
+
+        Integer id = 11;
+        String json = new ObjectMapper().writeValueAsString(createNewRegistration());
+
+        Registration updatingRegistration =
+                Registration.builder()
+                        .id(id)
+                        .name("Julia Carolina")
+                        .dateOfRegistration("10/10/2021")
+                        .registration("323")
+                        .build();
+
+        BDDMockito.given(registrationService.getRegistrationById(anyInt()))
+                .willReturn(Optional.of(updatingRegistration));
+
+        Registration updatedRegistration =
+                Registration.builder()
+                        .id(id)
+                        .name("Ana Carolina")
+                        .dateOfRegistration("10/10/2021")
+                        .registration("323")
+                        .build();
+
+        BDDMockito.given(registrationService
+                        .update(updatingRegistration))
+                .willReturn(updatedRegistration);
+
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .put(REGISTRATION_API.concat("/" + 1))
+                .contentType(json)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id").value(id))
+                .andExpect(jsonPath("name").value(createNewRegistration().getName()))
+                .andExpect(jsonPath("dateOfRegistration").value(createNewRegistration().getDateOfRegistration()))
+                .andExpect(jsonPath("registration").value("323"));
+    }
+
 
     private RegistrationDTO createNewRegistration() {
         return  RegistrationDTO.builder().id(101).name("Ana Carolina").dateOfRegistration("10/10/2021").registration("001").build();
