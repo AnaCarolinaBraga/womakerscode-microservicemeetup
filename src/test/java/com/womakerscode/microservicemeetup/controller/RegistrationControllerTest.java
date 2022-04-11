@@ -163,6 +163,38 @@ public class RegistrationControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    @DisplayName("Should delete a registration")
+    public void deleteRegistrationTest() throws Exception {
+
+        BDDMockito.given(registrationService
+                        .getRegistrationById(anyInt()))
+                .willReturn(Optional.of(Registration.builder().id(11).build()));
+
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .delete(REGISTRATION_API.concat("/" + 1))
+                .accept(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("Should return resource not found when no registration is found to delete")
+    public void deleteNonExistentRegistrationTest() throws Exception {
+
+        BDDMockito.given(registrationService
+                .getRegistrationById(anyInt())).willReturn(Optional.empty());
+
+
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .delete(REGISTRATION_API.concat("/" + 1))
+                .accept(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isNotFound());
+    }
+
 
     private RegistrationDTO createNewRegistration() {
         return  RegistrationDTO.builder().id(101).name("Ana Carolina").dateOfRegistration("10/10/2021").registration("001").build();
