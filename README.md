@@ -17,10 +17,10 @@
 ### O que está sendo feito/ O que falta fazer
 -[x] Implementação da classe se servico
 -[x] Testes no service
--[ ] Implementação da classe de controlle da web
--[ ] Testes de contrato no controller
--[ ] Testes unitarios no repository
--[ ] Implementação do repository
+-[x] Implementação da classe de controlle da web
+-[x] Testes do controller
+-[x] Testes unitarios no repository
+-[x] Implementação do repository
 -[ ] Swagger
 -[ ] Testes locais via postman
 -[ ] Deploy no azure
