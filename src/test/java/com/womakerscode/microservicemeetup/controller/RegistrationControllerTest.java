@@ -1,8 +1,9 @@
 package com.womakerscode.microservicemeetup.controller;
 
 
+import com.womakerscode.microservicemeetup.controller.resource.RegistrationController;
 import com.womakerscode.microservicemeetup.exception.BusinessException;
-import com.womakerscode.microservicemeetup.model.RegistrationDTO;
+import com.womakerscode.microservicemeetup.controller.dto.RegistrationDTO;
 import com.womakerscode.microservicemeetup.model.entity.Registration;
 import com.womakerscode.microservicemeetup.service.RegistrationService;
 import org.hamcrest.Matchers;
