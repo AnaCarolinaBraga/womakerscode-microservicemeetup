@@ -49,7 +49,7 @@ public class RegistrationServiceTest {
 
     @Test
     @DisplayName("Should save an registration")
-    public void saveStudent(){
+    public void saveRegistration(){
 
         //cenário, o que é necessario fazer para o teste funcionar
         //Aqui a gente mocka um objeto
