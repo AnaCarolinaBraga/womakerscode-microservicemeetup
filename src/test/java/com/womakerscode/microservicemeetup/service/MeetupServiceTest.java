@@ -3,6 +3,7 @@ package com.womakerscode.microservicemeetup.service;
 import com.womakerscode.microservicemeetup.model.entity.Meetup;
 import com.womakerscode.microservicemeetup.model.entity.Registration;
 import com.womakerscode.microservicemeetup.repository.MeetupRepository;
+import com.womakerscode.microservicemeetup.repository.RegistrationRepository;
 import com.womakerscode.microservicemeetup.service.impl.MeetupServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,12 +22,19 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 public class MeetupServiceTest {
 
     MeetupService meetupService;
+
+    @MockBean
+    RegistrationService registrationService;
+
+    @MockBean
+    RegistrationRepository registrationRepository;
 
     @MockBean
     MeetupRepository meetupRepository;
@@ -58,6 +66,27 @@ public class MeetupServiceTest {
         assertThat(savedMeetup.getRegistered()).isEqualTo(true);
     }
 
+    @Test
+    @DisplayName("Should update a Meetup")
+    public void updateMeetupTest() {
+
+        Integer id = 20;
+        Meetup updatingMeetup = Meetup.builder().id(20).build();
+
+        Meetup updatedMeetup = createValidMeetup();
+        updatedMeetup.setId(id);
+
+        Mockito.when(meetupRepository.save(updatingMeetup)).thenReturn(updatedMeetup);
+        Meetup meetup = meetupService.update(updatingMeetup);
+
+        // assert
+        assertThat(meetup.getId()).isEqualTo(updatedMeetup.getId());
+        assertThat(meetup.getEvent()).isEqualTo(updatedMeetup.getEvent());
+        assertThat(meetup.getRegistration()).isEqualTo(updatedMeetup.getRegistration());
+        assertThat(meetup.getMeetupDate()).isEqualTo(updatedMeetup.getMeetupDate());
+        assertThat(meetup.getRegistered()).isEqualTo(updatedMeetup.getRegistered());
+
+    }
 
     @Test
     @DisplayName("Should get an meetup by Id")
@@ -89,11 +118,48 @@ public class MeetupServiceTest {
         assertThat(meetup.isPresent()).isFalse();
     }
 
+    @Test
+    @DisplayName("should not save a new meetup when the registration is nonexistent")
+    public void dontCreateMeetupWithInvalidRegistrationTest(){
+
+        Meetup meetup = createMeetupWithoutRegistration();
+        Integer id = 22;
+
+        Mockito.when(registrationRepository.findById(id)).thenReturn(Optional.empty());
+        Optional<Registration> registration = registrationService.getRegistrationById(id);
+
+        assertThat(registration.isPresent()).isFalse();
+        Mockito.verify(meetupRepository,Mockito.never()).save(meetup);
+
+    }
+
+    @Test
+    @DisplayName("Should delete a meetup")
+    public void deleteMeetup() {
+
+        Meetup meetup = Meetup.builder().id(11).build();
+
+        assertDoesNotThrow(() -> meetupService.delete(meetup));
+
+        Mockito.verify(meetupRepository, Mockito.times(1)).delete(meetup);
+
+    }
+
+
     private Meetup createValidMeetup(){
         return Meetup.builder()
                 .id(101)
                 .event("Aniversario")
                 .registration(createValidRegistration())
+                .meetupDate("10/10/2022")
+                .registered(true)
+                .build();
+    }
+
+    private Meetup createMeetupWithoutRegistration(){
+        return Meetup.builder()
+                .id(101)
+                .event("Aniversario")
                 .meetupDate("10/10/2022")
                 .registered(true)
                 .build();

@@ -41,6 +41,14 @@ public class MeetupServiceImpl implements MeetupService {
         return repository.findByRegistrationOnMeetup( filterDTO.getRegistration(), filterDTO.getEvent(), pageable );
     }
 
+    @Override
+    public void delete(Meetup meetup) {
+        if (meetup == null || meetup.getId() == null) {
+            throw new IllegalArgumentException("Meetup id cannot be null");
+        }
+        this.repository.delete(meetup);
+
+    }
 
     @Override
     public Page<Meetup> getRegistrationsByMeetup(Registration registration, Pageable pageable) {
