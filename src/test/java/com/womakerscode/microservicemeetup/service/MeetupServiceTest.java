@@ -165,6 +165,7 @@ public class MeetupServiceTest {
                 .build();
     }
 
+
     private Registration createValidRegistration() {
         return Registration.builder()
                 .id(101)
@@ -173,6 +174,5 @@ public class MeetupServiceTest {
                 .registration("001")
                 .build();
     }
-
 
 }
