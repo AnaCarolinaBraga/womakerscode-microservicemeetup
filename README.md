@@ -24,8 +24,8 @@
 
 - [x] Implementação do repository
 
-- [ ] Swagger
+- [x] Swagger
 
-- [ ] Testes locais via postman
+- [x] Testes locais via postman
 
 - [ ] Deploy no azure
